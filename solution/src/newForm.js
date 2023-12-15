@@ -53,7 +53,7 @@ const NewForm = () => {
     //function to clear form
     const handleFormClear = () => {
         setName('');
-        setLocation('');
+        setLocation(locations[0] || '');
         setIsNameTaken(false);
     }; //end handleFormClear
 
