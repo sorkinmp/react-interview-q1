@@ -18,7 +18,11 @@ const NewForm = () => {
 
     //now use api to retrieve locations list via effect hook
     useEffect(() => {
-        getLocations().then(setLocations);
+        getLocations().then((allLocs) => {
+            setLocations(allLocs);
+            //ensure we can use the first location in the list
+            setLocation(allLocs[0]);
+        });
     }, []);
 
     //create ability to check input name against isNameValid
@@ -57,7 +61,10 @@ const NewForm = () => {
     const handleFormAdd = (event) => {
         event.preventDefault();
         //perform checks for valid name and selected location
-        if (name && !isNameTaken && location) {
+        //first check for duplicates
+        const nameInList = entries.some((entry) => entry.name === name);
+        //now run all checks
+        if (name && !isNameTaken && location && !nameInList) {
             //add new entry to entries and clear form
             setEntries([...entries, { name, location }]);
             handleFormClear();
@@ -95,15 +102,27 @@ const NewForm = () => {
                     <button type="submit" disabled={isNameTaken}>Add</button>
                 </div>
             </form>
-            {/* Display area for entries */}
+            {/* Entries displayed in table */}
             <div className="entries-display">
-                {entries.map((entry, index) => (
-                    <div key={index} className="entry">
-                        <span>{entry.name}</span>
-                        <span>{entry.location}</span>
-                    </div>
-                ))}
-            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {entries.map((entry, index) => (
+                            <tr key={index} className={index % 2 === 0 ? 'row-white' : 'row-black'}>
+                                <td>{entry.name}</td>
+                                <td>{entry.location}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                
+            </div> {/* end entries-display */}
+            {/* end NewForm */}
         </div>
     );
 
