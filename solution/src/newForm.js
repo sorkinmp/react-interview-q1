@@ -67,7 +67,7 @@ const NewForm = () => {
 
     //finally, return
     return (
-        <div className="form-component">
+        <div className="NewForm">
             <form onSubmit={handleFormAdd}>
                 <div className="input-group">
                     <label htmlFor="name">Name</label>
