@@ -63,8 +63,12 @@ const NewForm = () => {
         //perform checks for valid name and selected location
         //first check for duplicates
         const nameInList = entries.some((entry) => entry.name === name);
-        //now run all checks
-        if (name && !isNameTaken && location && !nameInList) {
+        //if in list, return error
+        if(nameInList) {
+            //use the property of isNameTaken
+            setIsNameTaken(true);
+            //otherwise run all checks
+        } else if (name && !isNameTaken && location) {
             //add new entry to entries and clear form
             setEntries([...entries, { name, location }]);
             handleFormClear();
